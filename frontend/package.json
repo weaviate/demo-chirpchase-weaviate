@@ -1,0 +1,44 @@
+{
+  "name": "tweet-crusade-app",
+  "version": "0.0.2",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next export",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@types/node": "18.15.11",
+    "@types/react": "18.0.31",
+    "@types/react-dom": "18.0.11",
+    "@types/react-router": "^5.1.20",
+    "autosize": "^6.0.1",
+    "eslint": "8.37.0",
+    "eslint-config-next": "13.2.4",
+    "install": "^0.13.0",
+    "next": "13.2.4",
+    "npm": "^9.6.3",
+    "react": "18.2.0",
+    "react-datepicker": "^4.11.0",
+    "react-datetime": "^3.2.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "18.2.0",
+    "react-icons": "^4.8.0",
+    "react-select": "^5.7.2",
+    "react-textarea-autosize": "^8.4.1",
+    "react-window": "^1.8.8",
+    "typescript": "5.0.2"
+  },
+  "devDependencies": {
+    "@types/autosize": "^4.0.1",
+    "@types/react-datepicker": "^4.10.0",
+    "@types/react-measure": "^2.0.8",
+    "@types/react-select": "^5.0.1",
+    "@types/react-window": "^1.8.5",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.22",
+    "tailwindcss": "^3.3.1"
+  }
+}

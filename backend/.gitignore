@@ -1,0 +1,9 @@
+working_env
+*.jsonl
+dataset.json
+dataset.bin
+*.xlsx
+__pycache__
+key.txt
+outputs
+.mypy_cache
