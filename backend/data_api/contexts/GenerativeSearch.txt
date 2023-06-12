@@ -1,1 +1,3 @@
-Weaviate Documentation
+Generative search, as exemplified by Google's Search Generative Experience (SGE), is a set of search and interface capabilities that integrates generative AI-powered results into search engine query responses. Rather than relying entirely on data indexed and ranked by traditional search methods, generative search makes use of a large language model (LLM) for both content and query capabilities. The model enables the AI to infer results and make suggestions to improve user search results. It's important to note that generative search doesn't entirely replace results from the existing index, but rather supplements them​1​.
+
+The goal of generative search is to transform the way search works, unlocking entirely new questions that search can answer, and creating increasingly helpful experiences that connect users to the richness of the web​1​.

@@ -2,9 +2,8 @@ fastapi
 snscrape>=0.6.2.20230320
 typer
 pathlib
-jina
 black
 openai
-termcolor
+wasabi
 mypy
 pytest
