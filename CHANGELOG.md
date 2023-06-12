@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.3] - 12.06.2023
+
+### Added 
+
+- Refactor frontend (light mode)
+- Remove uneccesary features for now
+- Improve prompts and contexts
+- Add trail-n-error mechanism when using API
+- Started using TwitterAPI
+
 ## [0.1.3] - 20.04.2023
 
 ### Added 
