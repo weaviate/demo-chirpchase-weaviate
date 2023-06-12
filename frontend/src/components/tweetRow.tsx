@@ -31,9 +31,8 @@ export const TweetRow: React.FC<TweetRowProps> = ({
     <div
       ref={drag}
       onClick={handleClick}
-      className={`animate-pop-in-late cursor-pointer block p-4 mr-3 mb-2 bg-zinc-800 border-2 border-zinc-600 mt-2 rounded-lg shadow-md hover:bg-zinc-600 transition-all duration-200 transform hover:z-5 relative ${
-        isDragging ? "opacity-50" : ""
-      }`}
+      className={`animate-pop-in-late text-zinc-800 cursor-pointer block p-4 mr-3 mb-2 bg-zinc-100 border-2  mt-2 rounded-lg shadow-md hover:bg-white transition-all duration-200 transform hover:z-5 relative ${isDragging ? "opacity-50" : ""
+        }`}
     >
       <div className="flex mb-2">
         <img

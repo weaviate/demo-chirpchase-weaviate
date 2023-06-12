@@ -6,7 +6,6 @@ import { Dropzone } from "../components/dropzone";
 import { InputCard } from "../components/inputCard";
 import { OutputCard } from "../components/outputCard";
 import { FaKiwiBird } from "react-icons/fa";
-import { Login } from "../components/login";
 
 export default function Home() {
   const [selectedTweet, setSelectedTweet] = useState<string | null>(null);
@@ -15,11 +14,6 @@ export default function Home() {
   const [keyText, setkeyText] = useState<string[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [apiStatus, setApiStatus] = useState<string>("Offline");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const handleLoginSuccess = () => {
-    setIsAuthenticated(true);
-  };
 
   const handleTweetSelect = (tweet: string) => {
     setSelectedTweet(tweet);
@@ -39,6 +33,7 @@ export default function Home() {
 
   const handleSend = async (inputText: string, tags: string[]) => {
     setIsLoading(true);
+
     const payload = {
       input_text: inputText,
       tags: tags,
@@ -73,44 +68,46 @@ export default function Home() {
       setApiStatus("Offline");
     }
   };
-  
+
   useEffect(() => {
     checkApiHealth();
   }, []);
 
-  if (!isAuthenticated) {
-    return <Login onLoginSuccess={handleLoginSuccess} />;
-  }
-
   return (
     <div className="min-h-screen">
       <DndProvider backend={HTML5Backend}>
-        <div className="w-1/3 h-screen bg-zinc-800 fixed shadow-lg overflow-y-auto custom-scrollbar grid-background">
-          <div className="pt-8 ml-16 title-container">
-            <h1 className=" text-5xl text-white flex items-center ">
+        <div className="w-1/3 h-screen bg-zinc-100 fixed shadow-lg overflow-y-auto custom-scrollbar" style={{
+          backgroundImage: "url('/sidebar.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}>
+          <div className="pt-8 title-container">
+            <h1 className=" text-5xl text-zinc-800 flex items-center justify-center">
               <FaKiwiBird className="mr-4"></FaKiwiBird>
-              <span className="font-bold text-fuchsia-400 neon-text">
+              <span className="font-bold text-green-500">
                 Chirp
               </span>
-              <span className="font-thin">Chase</span>
+              <span className="">Chase</span>
             </h1>
-            <p className="mt-2 text-sm text-white font-mono">
+            <p className="mt-2 text-sm text-zinc-800 font-mono flex justify-center">
               Analyze and leverage content generation
             </p>
-            <div className="mt-4 text-xs text-white font-mono flex justify-center">
-              <span className="rounded-indicator neon-text">v0.1.3</span>
-              <span className="rounded-indicator neon-text mr-20">API: {apiStatus}</span>
+            <div className="mt-4 text-xs text-zinc-900 font-mono flex justify-center">
+              <span className="rounded-indicator">v0.1.3</span>
+              <span className="rounded-indicator">API: {apiStatus}</span>
             </div>
           </div>
           <div className="pt-6 px-12">
-            <Dropzone onDrop={handleDrop} onClear={handleClearDrop} onDelete={handleDeleteTweet} />
             <InputCard onSend={handleSend} />
+            <div className="mt-4">
+              <Dropzone onDrop={handleDrop} onClear={handleClearDrop} onDelete={handleDeleteTweet} />
+            </div>
           </div>
         </div>
         <div
           className="w-2/3 ml-auto min-h-screen overflow-y-auto custom-scrollbar"
           style={{
-            backgroundImage: "url('/background.jpg')",
+            backgroundImage: "url('/background.png')",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}

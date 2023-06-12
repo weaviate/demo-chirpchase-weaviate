@@ -1,6 +1,6 @@
 export const ItemTypes = {
-    TWEET: 'tweet',
-  };
+  TWEET: 'tweet',
+};
 
 export const customSelectStyles = {
   control: (provided: any) => ({
@@ -21,8 +21,8 @@ export const customSelectStyles = {
     backgroundColor: state.isSelected
       ? "#27272A"
       : state.isFocused
-      ? "#2a2a2a"
-      : "#52525B",
+        ? "#2a2a2a"
+        : "#52525B",
     color: "white",
   }),
   singleValue: (provided: any) => ({
@@ -57,4 +57,9 @@ export const customSelectStyles = {
     ...provided,
     color: "white",
   }),
+};
+
+export const getButtonClassName = (isSelected: boolean) => {
+  return `px-2 py-1 text-xs font-mono w-20 h-10font-mono animate-pop-in-late rounded-lg shadow-lg transition duration-150 ease-in-out ${isSelected ? "bg-blue-400 text-white hover:bg-blue-300" : "bg-zinc-300 text-zinc-800 hover:bg-white"
+    }`;
 };

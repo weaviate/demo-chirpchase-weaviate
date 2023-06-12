@@ -27,10 +27,12 @@
     opacity: 0.5;
     transform: scale(0.3);
   }
+
   60% {
     opacity: 1;
     transform: scale(1.025);
   }
+
   100% {
     opacity: 1;
     transform: scale(1);
@@ -41,12 +43,15 @@
   0% {
     transform: scale(0);
   }
+
   40% {
     transform: scale(0);
   }
+
   80% {
     transform: scale(1.05);
   }
+
   100% {
     transform: scale(1);
   }
@@ -70,29 +75,36 @@
 
 /* Add this to your CSS file or within a <style> tag in your component */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 10px; /* Adjust the scrollbar width */
+  width: 15px;
+  /* Adjust the scrollbar width */
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #18181b; /* Adjust the track background color */
+  background: #bcbcbc;
+  /* Adjust the track background color */
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #626262; /* Adjust the thumb color */
-  border-radius: 50px; /* Adjust the thumb border-radius */
+  background-color: #d2d2d2;
+  /* Adjust the thumb color */
+  border-radius: 50px;
+  /* Adjust the thumb border-radius */
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: #373737; /* Adjust the thumb color when hovered */
+  background-color: #eaeaea;
+  /* Adjust the thumb color when hovered */
 }
 
 @keyframes neonGradient {
   0% {
     background-position: 25% 50%;
   }
+
   50% {
     background-position: 100% 75%;
   }
+
   100% {
     background-position: 25% 50%;
   }
@@ -112,6 +124,7 @@
   padding: 4px 12px;
   border-radius: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
 }
 
 .neon-border::before {
@@ -123,17 +136,15 @@
   right: -3px;
   bottom: -3px;
   z-index: -1;
-  background: linear-gradient(
-    -90deg,
-    #ff0000,
-    #ff7f00,
-    #ffff00,
-    #00ff00,
-    #00ffff,
-    #0000ff,
-    #8b00ff,
-    #ff0000
-  );
+  background: linear-gradient(-90deg,
+      #ff0000,
+      #ff7f00,
+      #ffff00,
+      #00ff00,
+      #00ffff,
+      #0000ff,
+      #8b00ff,
+      #ff0000);
   background-size: 300% 300%;
   border-radius: 6px;
   animation: neonGradient 10s ease infinite;
@@ -148,34 +159,30 @@
   right: -3px;
   bottom: -3px;
   z-index: -1;
-  background: linear-gradient(
-    20deg,
-    #ff0000,
-    #ff7f00,
-    #ffff00,
-    #00ff00,
-    #00ffff,
-    #0000ff,
-    #8b00ff,
-    #ff0000
-  );
+  background: linear-gradient(20deg,
+      #ff0000,
+      #ff7f00,
+      #ffff00,
+      #00ff00,
+      #00ffff,
+      #0000ff,
+      #8b00ff,
+      #ff0000);
   background-size: 300% 300%;
   border-radius: 6px;
   animation: neonGradient 8s ease infinite;
 }
 
 .neon-text {
-  background: linear-gradient(
-    -45deg,
-    #ff0000,
-    #ff7f00,
-    #ffff00,
-    #00ff00,
-    #00ffff,
-    #0000ff,
-    #8b00ff,
-    #ff0000
-  );
+  background: linear-gradient(-45deg,
+      #ff0000,
+      #ff7f00,
+      #ffff00,
+      #00ff00,
+      #00ffff,
+      #0000ff,
+      #8b00ff,
+      #ff0000);
   background-size: 300% 300%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -186,14 +193,13 @@
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: 0.2;
   }
 }
 
-.grid-background {
-
-}
+.grid-background {}
 
 .grid-background::before {
   content: "";

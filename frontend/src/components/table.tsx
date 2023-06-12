@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
 import { AiOutlineSearch } from "react-icons/ai";
 import { MdOutlineExplore } from "react-icons/md";
-import { customSelectStyles } from "./itemTypes";
+import { customSelectStyles, getButtonClassName } from "./itemTypes";
 
 export interface Tweet {
   id: string;
@@ -75,12 +75,6 @@ export const Table: React.FC<TableProps> = ({ onTweetSelect }) => {
       setSelectedDate(latestDate);
     }
   }, [data]);
-
-  const refreshData = async () => {
-    const response = await fetch("http://localhost:8000/refresh");
-    const jsonData = await response.json();
-    setData(jsonData);
-  };
 
   const handleSort = (key: keyof Tweet) => {
     let direction: "ascending" | "descending" = "ascending";
@@ -185,32 +179,26 @@ export const Table: React.FC<TableProps> = ({ onTweetSelect }) => {
     );
   };
 
-  const getButtonClassName = (isSelected: boolean) => {
-    return `px-2 py-1 text-xs w-20 h-10 text-white font-mono animate-pop-in-late rounded-lg focus:outline-none shadow-lg focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out ${
-      isSelected ? "bg-green-500 " : "bg-zinc-600"
-    } hover:bg-green-500`;
-  };
-
   return (
-    <div className="animate-pop-in table-container table_above">
-      <div className="p-4 bg-zinc-900 text-gray-300 rounded-lg shadow-lg border-2 border-zinc-600">
+    <div className="animate-pop-in table_above">
+      <div className="p-4 bg-zinc-200 text-gray-300 rounded-lg shadow-lg border-2 border-dashed border-blue-400">
         <div className="flex items-center mb-4">
-          <MdOutlineExplore className="mr-2"></MdOutlineExplore>
-          <p className="text-sm font-mono font-bold text-white">
-            Tweet Explorer
+          <MdOutlineExplore className="mr-2 text-zinc-800"></MdOutlineExplore>
+          <p className="text-sm font-mono font-bold text-zinc-800">
+            Content Explorer
           </p>
           <div></div>
         </div>
         <div className="relative w-full mb-4">
           <div className="flex space-x-2">
-            <div className="flex items-center w-3/4 p-2 text-white bg-zinc-600 border border-gray-600 rounded shadow-lg">
-              <AiOutlineSearch className="mr-2" />
+            <div className="flex items-center w-3/4 p-2 text-white bg-zinc-100 rounded shadow-lg">
+              <AiOutlineSearch className="mr-2 text-zinc-800" />
               <input
                 type="text"
                 placeholder="Search tweets"
                 value={searchQuery}
                 onChange={handleSearchInputChange}
-                className=" w-full bg-transparent focus:outline-none text-sm font-mono"
+                className=" w-full bg-transparent focus:outline-none text-sm font-mono text-zinc-800"
               />
             </div>
             <button
@@ -231,12 +219,6 @@ export const Table: React.FC<TableProps> = ({ onTweetSelect }) => {
               {sortConfig.key === "likes" &&
                 (sortConfig.direction === "ascending" ? "↑" : "↓")}
             </button>
-            <button
-            onClick={refreshData}
-            className={`ml-auto px-2 py-1 text-xs w-20 h-10 text-white font-mono animate-pop-in-late rounded-lg focus:outline-none shadow-lg focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out bg-zinc-600 hover:bg-green-500`}
-          >
-            Refresh
-          </button>
           </div>
         </div>
         <div className="overflow-x-auto overflow-y-auto mb-1 rounded-lg">
@@ -261,36 +243,11 @@ export const Table: React.FC<TableProps> = ({ onTweetSelect }) => {
               dateFormat="yyyy/MM/dd"
               isClearable
               placeholderText="Select date"
-              className="p-2 text-white bg-zinc-600 border border-gray-600 rounded font-mono text-xs"
-            />
-          </div>
-
-          <div className="flex items-center mr-4 mt-3 text-xs font-mono">
-            <Select
-              isMulti
-              options={[
-                { label: "All users", value: "all" },
-                ...uniqueUsers.map((user) => ({ label: user, value: user })),
-              ]}
-              placeholder="Select Users"
-              onChange={handleUserSelect}
-              styles={customSelectStyles}
-            />
-          </div>
-          <div className="flex items-center mr-4 mt-3 text-xs font-mono">
-            <Select
-              isMulti
-              options={[
-                { label: "All tags", value: "all" },
-                ...uniqueTags.map((tag) => ({ label: tag, value: tag })),
-              ]}
-              onChange={handleTagSelect}
-              placeholder="Select Tags"
-              styles={customSelectStyles}
+              className="p-2 bg-zinc-300 rounded font-mono text-xs text-zinc-800"
             />
           </div>
           <div className="flex items-center mt-3 text-xs font-mono">
-            <span className="text-white">
+            <span className="text-zinc-800">
               Showing {filteredData.length} of {data.length} tweets
             </span>
           </div>

@@ -10,19 +10,18 @@ interface InputCardProps {
 
 export const InputCard: React.FC<InputCardProps> = ({ onSend }) => {
   const [prompts, setPrompts] = useState<{ [key: string]: string }>({});
-  const firstKey = Object.keys(prompts)[0];
-  const firstValue = prompts[firstKey];
-  const [inputText, setInputText] = useState(firstValue);
-  const [selectedPrompt, setSelectedPrompt] = useState(firstKey);
+  const [inputText, setInputText] = useState("");
+  const [selectedPrompt, setSelectedPrompt] = useState("");
   const [contextTags, setContextTags] = useState<string[] | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [textareaExpanded, setTextareaExpanded] = useState(false);
 
-  const handleTagChange = (
-    selectedOptions: ReadonlyArray<{ label: string; value: string }> | null,
-    actionMeta: any
-  ) => {
-    const values = selectedOptions?.map((option) => option.value) || [];
-    setSelectedTags(values);
+  const handleTagSelection = (tag: string) => {
+    if (selectedTags.includes(tag)) {
+      setSelectedTags(selectedTags.filter((t) => t !== tag));
+    } else {
+      setSelectedTags([...selectedTags, tag]);
+    }
   };
 
   useEffect(() => {
@@ -55,63 +54,82 @@ export const InputCard: React.FC<InputCardProps> = ({ onSend }) => {
     setInputText(e.target.value);
   };
 
-  const handlePromptChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedPrompt(e.target.value);
+  const handlePromptSelection = (promptKey: string) => {
+    setSelectedPrompt(promptKey);
   };
 
   const handleClick = () => {
     onSend(inputText, selectedTags);
   };
 
+  const toggleTextArea = () => {
+    setTextareaExpanded(!textareaExpanded);
+  };
+
   return (
-    <div className="animate-pop-in table-container">
-      <div className="relative p-4 mb-8 bg-zinc-900 text-gray-300 rounded-lg shadow-lg shadow-purple-500 neon-border-2">
+    <div className="animate-pop-in">
+      <div className="relative p-4 mb-8 bg-zinc-200 text-zinc-800 rounded-lg shadow-lg border-dashed border-2 border-green-400">
         <div className="flex items-center mb-4">
           <TbPrompt className="mr-2"></TbPrompt>
-          <p className="text-sm font-mono font-bold text-white">Prompt</p>
+          <p className="text-sm font-mono font-bold text-zinc-800">Persona Prompt</p>
         </div>
         <div className="mb-2">
-          <div className="flex space-x-2">
-            <select
-              value={selectedPrompt}
-              onChange={handlePromptChange}
-              className="w-full p-2 transition duration-150 ease-in-out bg-zinc-600 text-sm font-mono text-white rounded-lg focus:border-blue-300 focus:ring-1 focus:ring-blue-200"
-            >
-              {Object.keys(prompts).map((title, index) => (
-                <option key={index} value={title}>
+          <p className="text-xs font-mono text-zinc-800 mb-2">🗿 Select a persona prompt to generate content</p>
+          <div className="grid grid-cols-3 gap-1">
+            {Object.keys(prompts).map((title, index) => (
+              <div
+                key={index}
+                onClick={() => handlePromptSelection(title)}
+                className={`cursor-pointer p-9 m-2 rounded-lg shadow-lg  animate-pop-in-late table-container flex justify-center transform transition-all duration-200 hover:shadow-xl ${selectedPrompt === title ? 'bg-green-400 text-white' : 'bg-zinc-300 hover:bg-zinc-100'}`}
+              >
+                <span className="font-mono text-xs">
                   {title}
-                </option>
-              ))}
-            </select>
-
-            <button
-              onClick={handleClick}
-              className="px-2 py-1 text-xs w-20 h-10 text-white bg-zinc-600 font-mono animate-pop-in-late rounded-lg focus:outline-none shadow-lg hover:bg-green-500"
-            >
-              Send
-            </button>
+                </span>
+              </div>
+            ))}
           </div>
-          <div className="flex items-center mt-2 mb-4 text-xs font-mono">
-            <Select
-              isMulti
-              options={[
-                ...(contextTags ?? []).map((tag) => ({
-                  label: tag,
-                  value: tag,
-                })),
-              ]}
-              onChange={handleTagChange}
-              placeholder="Add Context"
-              styles={customSelectStyles}
-            />
+          <hr className="my-4 bg-zinc-500" />
+          <p className="text-xs font-mono text-zinc-800 mb-2">🛰️ Enhance the prompt with more context</p>
+          <div className="grid grid-cols-2 gap-1 mt-2 mb-4 text-xs font-mono">
+            {contextTags?.map((tag, index) => (
+              <div
+                key={index}
+                onClick={() => handleTagSelection(tag)}
+                className={`cursor-pointer p-3 m-2 rounded-lg animate-pop-in-late table-container shadow-lg text-center flex justify-center transform transition-all duration-200 hover:shadow-xl ${selectedTags.includes(tag) ? 'bg-blue-400 text-white' : 'bg-zinc-300 hover:bg-zinc-100'}`}
+              >
+                <span className="font-mono text-xs">
+                  {tag}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
-        <TextareaAutosize
-          value={inputText}
-          onChange={handleChange}
-          className="w-full px-3 py-3 bg-zinc-800  text-white text-sm font-mono rounded-md custom-scrollbar"
-        />
+        <hr className="my-4 bg-zinc-500" />
+        <button
+          onClick={toggleTextArea}
+          className="w-full text-xs text-zinc-800 bg-zinc-300 p-3 font-mono animate-pop-in-late table-container rounded-lg focus:outline-none shadow-lg hover:bg-zinc-100"
+        >
+          {textareaExpanded ? 'Hide prompt' : 'Show prompt'}
+        </button>
+        {textareaExpanded && (
+          <TextareaAutosize
+            value={inputText}
+            onChange={handleChange}
+            className="w-full p-4 bg-zinc-300  text-zinc-800 font-mono text-xs rounded-md custom-scrollbar mt-4"
+          />
+        )}
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={handleClick}
+            className="p-3 my-2 text-sm text-zinc-800 bg-zinc-100 font-mono animate-pop-in-late rounded-lg focus:outline-none shadow-lg hover:bg-green-400 hover:text-white"
+          >
+            ⚙️ Generate
+          </button>
+        </div>
       </div>
+
     </div>
   );
 };
+
+export default InputCard;
