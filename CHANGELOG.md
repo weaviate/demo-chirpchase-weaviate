@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.1.3] - 12.06.2023
+## [0.1.4] - 12.06.2023
 
 ### Added 
 
@@ -11,6 +11,8 @@ All notable changes to this project will be documented in this file.
 - Improve prompts and contexts
 - Add trail-n-error mechanism when using API
 - Started using TwitterAPI
+- Added Cache functionality
+- Added Content Creator
 
 ## [0.1.3] - 20.04.2023
 

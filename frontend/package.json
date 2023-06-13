@@ -1,6 +1,6 @@
 {
   "name": "tweet-crusade-app",
-  "version": "0.0.2",
+  "version": "0.1.4",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -29,7 +29,8 @@
     "react-select": "^5.7.2",
     "react-textarea-autosize": "^8.4.1",
     "react-window": "^1.8.8",
-    "typescript": "5.0.2"
+    "typescript": "5.0.2",
+    "typewriter-effect": "^2.20.1"
   },
   "devDependencies": {
     "@types/autosize": "^4.0.1",

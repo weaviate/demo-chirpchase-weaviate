@@ -13,6 +13,27 @@ from pydantic import BaseModel
 from typing import List
 from datetime import datetime
 
+
+def load_cache(cache_path: Path) -> dict:
+    """Load the cache from a local JSON file or create a new dict
+    @parameter cache_path : Path - Path to the cache.json
+    @returns dict - A dict containing previous results matched to a NL query
+    """
+    if cache_path.exists():
+        try:
+            with open(cache_path, "r") as reader:
+                data = json.load(reader)
+                msg.good(f"Cache loaded with {len(data)} results")
+                return data
+        except Exception as e:
+            msg.warn("Cache couldn't be imported")
+            msg.info(e)
+            return {}
+    else:
+        msg.warn("No cache.json detected, creating new one")
+        return {}
+
+
 # Open AI API Key
 openai.api_key = os.environ.get("OPENAI_API_KEY", "")
 if openai.api_key != "":
@@ -22,8 +43,8 @@ else:
 
 # Additional Prompt Features
 promptFormat = """
-Return the output in this specific JSON format: {"<TOPIC1>":"<RESULT1>", "<TOPIC2>":"<RESULT2>", "<TOPIC3>":"<RESULT3>"} , where <TOPIC> is the topic of the generated <RESULT>. 
-Make sure that the TOPIC does not contain any characters that might break the JSON. Return at least five tweets which the character size limited to 280.
+Return your output in this specific JSON format: {"<TOPIC1>":"<NEWCONTENT1>", "<TOPIC2>":"<NEWCONTENT2>"} , where <TOPIC> is the topic of the generated <CONTENT>. 
+Make sure that the TOPIC does not contain any characters that might break the JSON. Generate at least five new different content snippets.
 """
 
 security = HTTPBasic()
@@ -52,7 +73,13 @@ class Tweet(BaseModel):
 class ProcessTweetsPayload(BaseModel):
     input_text: str
     tags: List[str]
+    prompt: str
     tweets: List[Tweet]
+
+
+# Load temporary cache file
+cache_path = Path("cache.json")
+cache = load_cache(cache_path)
 
 
 # Functions
@@ -153,6 +180,11 @@ async def getContext():
     return JSONResponse(content=contexts)
 
 
+@app.get("/cache")
+async def getContext():
+    return JSONResponse(content=cache)
+
+
 @app.post("/process_tweets")
 async def process_tweets(payload: ProcessTweetsPayload):
     """Process the Payload sent by the Frontend, send API request to Open AI API, receive and format the results and send them back to the frontend
@@ -181,6 +213,7 @@ async def process_tweets(payload: ProcessTweetsPayload):
         user_message = str([tweet.tweet for tweet in payload.tweets])
 
         for i in range(3):
+            cache_id = None
             try:
                 response = openai.ChatCompletion.create(
                     model="gpt-4",
@@ -210,7 +243,7 @@ async def process_tweets(payload: ProcessTweetsPayload):
 
             contentJSON = None
             content = response["choices"][0]["message"]["content"]
-            print(content)
+
             try:
                 contentJSON = json.loads(str(content))
             except Exception as e:
@@ -221,12 +254,24 @@ async def process_tweets(payload: ProcessTweetsPayload):
             if contentJSON:
                 for topic in contentJSON:
                     if topic not in responseDict:
-                        responseDict["🧠 " + topic] = contentJSON[topic]
+                        formatted_topic = topic.replace("_", " ")
+                        responseDict["🧠 " + formatted_topic] = contentJSON[topic]
             else:
+                msg.warn(f"JSON Validation failed at {i}")
                 continue
 
             responseDict["📝 Prompt"] = prompt
             responseDict["📝 Input"] = user_message
+
+            formatted_datetime = str(datetime.now()).split(".")[0]
+            cache_id = payload.prompt + " " + str(formatted_datetime)
+            if cache_id not in cache:
+                cache[cache_id] = responseDict
+
+            with open(cache_path, "w") as file:
+                json.dump(cache, file)
+                msg.good(f"Saved cache to {cache_path}")
+
             return JSONResponse(content=responseDict)
 
         responseDict = {"⚠️ Error occured": "Something went wrong!"}

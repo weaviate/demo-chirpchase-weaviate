@@ -5,7 +5,7 @@ import Select from "react-select";
 import { customSelectStyles } from "./itemTypes";
 
 interface InputCardProps {
-  onSend: (text: string, tags: string[]) => void;
+  onSend: (text: string, tags: string[], prompt: string) => void;
 }
 
 export const InputCard: React.FC<InputCardProps> = ({ onSend }) => {
@@ -59,7 +59,7 @@ export const InputCard: React.FC<InputCardProps> = ({ onSend }) => {
   };
 
   const handleClick = () => {
-    onSend(inputText, selectedTags);
+    onSend(inputText, selectedTags, selectedPrompt);
   };
 
   const toggleTextArea = () => {
@@ -109,7 +109,7 @@ export const InputCard: React.FC<InputCardProps> = ({ onSend }) => {
           onClick={toggleTextArea}
           className="w-full text-xs text-zinc-800 bg-zinc-300 p-3 font-mono animate-pop-in-late table-container rounded-lg focus:outline-none shadow-lg hover:bg-zinc-100"
         >
-          {textareaExpanded ? 'Hide prompt' : 'Show prompt'}
+          {textareaExpanded ? 'Hide prompt' : 'Edit prompt'}
         </button>
         {textareaExpanded && (
           <TextareaAutosize

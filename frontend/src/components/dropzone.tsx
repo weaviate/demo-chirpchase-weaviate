@@ -78,7 +78,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onDrop, onClear, onDelete })
         </div>
         <div
           ref={drop}
-          className="w-full min-h-[100px] p-4 mb-4 bg-zinc-300 rounded-lg text-zinc-400 text-sm font-mono"
+          className="w-full min-h-[100px] p-4 mb-4 bg-zinc-300 rounded-lg text-zinc-400 text-xs font-mono"
         >
           {tweets.length === 0 ? (
             <p>Drop your tweets here</p>

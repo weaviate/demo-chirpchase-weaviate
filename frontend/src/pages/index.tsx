@@ -6,11 +6,13 @@ import { Dropzone } from "../components/dropzone";
 import { InputCard } from "../components/inputCard";
 import { OutputCard } from "../components/outputCard";
 import { FaKiwiBird } from "react-icons/fa";
+import { OutputEntry } from "../components/itemTypes";
 
 export default function Home() {
   const [selectedTweet, setSelectedTweet] = useState<string | null>(null);
   const [droppedTweets, setDroppedTweets] = useState<Tweet[]>([]);
   const [responseText, setResponseText] = useState<string[] | null>(null);
+  const [responseData, setResponseData] = useState<OutputEntry | null>(null);
   const [keyText, setkeyText] = useState<string[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [apiStatus, setApiStatus] = useState<string>("Offline");
@@ -31,12 +33,13 @@ export default function Home() {
     setDroppedTweets((prevTweets) => prevTweets.filter((tweet) => tweet.id !== tweetId));
   };
 
-  const handleSend = async (inputText: string, tags: string[]) => {
+  const handleSend = async (inputText: string, tags: string[], prompt: string) => {
     setIsLoading(true);
 
     const payload = {
       input_text: inputText,
       tags: tags,
+      prompt: prompt,
       tweets: droppedTweets,
     };
 
@@ -49,10 +52,7 @@ export default function Home() {
     });
 
     const data = await response.json();
-    const messages = Object.values(data) as string[];
-    const keys = Object.keys(data) as string[];
-    setResponseText(messages);
-    setkeyText(keys);
+    setResponseData(data);
     setIsLoading(false);
   };
 
@@ -72,6 +72,19 @@ export default function Home() {
   useEffect(() => {
     checkApiHealth();
   }, []);
+
+  const handleAddTweetContent = (content: string) => {
+    setDroppedTweets((prevTweets) => [...prevTweets, {
+      id: Math.random().toString(), // you can replace this with a more unique ID generation method
+      user: 'User Name', // replace this with the user name
+      tweet: content,
+      likes: 0,
+      date: new Date().toISOString(),
+      profileImage: '', // add a profile image URL here
+      url: '', // add a tweet URL here
+      userTags: [], // add user tags if any
+    }]);
+  };
 
   return (
     <div className="min-h-screen">
@@ -93,7 +106,7 @@ export default function Home() {
               Analyze and leverage content generation
             </p>
             <div className="mt-4 text-xs text-zinc-900 font-mono flex justify-center">
-              <span className="rounded-indicator">v0.1.3</span>
+              <span className="rounded-indicator">v0.1.4</span>
               <span className="rounded-indicator">API: {apiStatus}</span>
             </div>
           </div>
@@ -114,13 +127,12 @@ export default function Home() {
         >
           <div className="container pt-8 px-8 custom-scrollbar">
             <div className="w-full">
-              <Table onTweetSelect={handleTweetSelect} />
+              <Table onTweetSelect={handleTweetSelect} onAddTweetContent={handleAddTweetContent} />
               <div className="mt-4">
                 <OutputCard
-                  output={responseText}
-                  keys={keyText}
+                  data={responseData}
                   isLoading={isLoading}
-                ></OutputCard>
+                />
               </div>
             </div>
           </div>

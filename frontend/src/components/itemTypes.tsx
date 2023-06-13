@@ -63,3 +63,7 @@ export const getButtonClassName = (isSelected: boolean) => {
   return `px-2 py-1 text-xs font-mono w-20 h-10font-mono animate-pop-in-late rounded-lg shadow-lg transition duration-150 ease-in-out ${isSelected ? "bg-blue-400 text-white hover:bg-blue-300" : "bg-zinc-300 text-zinc-800 hover:bg-white"
     }`;
 };
+
+export interface OutputEntry {
+  [key: string]: string;
+}
