@@ -38,21 +38,21 @@ export const TweetRow: React.FC<TweetRowProps> = ({
         <img
           src={row.profileImage}
           alt="Profile"
-          className="w-12 h-12 mr-4 rounded-full"
+          className="w-10 h-10 mr-4 rounded-full"
         />
         <div className="flex-grow">
-          <div className="font-bold text-md">{row.user}</div>
+          <div className="font-bold text-sm">{row.user}</div>
           <div className="text-xs font-thin">
             {new Date(row.date).toLocaleDateString()}
           </div>
         </div>
         <div className="flex items-start ml-2">
-          <div className="text-sm">
+          <div className="text-xs">
             {row.likes} <AiFillHeart className="inline" />
           </div>
         </div>
       </div>
-      <div className="text-sm font-mono h-20">{row.tweet}</div>
+      <div className="text-xs font-mono h-20">{row.tweet}</div>
     </div>
   );
 };

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { TbPrompt } from "react-icons/tb";
-import Select from "react-select";
-import { customSelectStyles } from "./itemTypes";
 
 interface InputCardProps {
   onSend: (text: string, tags: string[], prompt: string) => void;
@@ -89,7 +87,7 @@ export const InputCard: React.FC<InputCardProps> = ({ onSend }) => {
             ))}
           </div>
           <hr className="my-4 bg-zinc-500" />
-          <p className="text-xs font-mono text-zinc-800 mb-2">🛰️ Enhance the prompt with more context</p>
+          <p className="text-xs font-mono text-zinc-800 mb-2">✨ Enhance the prompt with more context</p>
           <div className="grid grid-cols-2 gap-1 mt-2 mb-4 text-xs font-mono">
             {contextTags?.map((tag, index) => (
               <div

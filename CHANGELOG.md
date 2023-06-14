@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - Started using TwitterAPI
 - Added Cache functionality
 - Added Content Creator
+- Code Cleaning and Readme adjustments
 
 ## [0.1.3] - 20.04.2023
 

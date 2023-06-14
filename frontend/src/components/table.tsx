@@ -20,18 +20,14 @@ export interface Tweet {
 }
 
 interface TableProps {
-  onTweetSelect: (tweet: string) => void;
   onAddTweetContent: (content: string) => void;
 }
 
-export const Table: React.FC<TableProps> = ({ onTweetSelect, onAddTweetContent }) => {
+export const Table: React.FC<TableProps> = ({ onAddTweetContent }) => {
   const [data, setData] = useState<Tweet[]>([]);
-  const [selectedRowIndex, setSelectedRowIndex] = useState<number | null>(null);
   const [tab, setTab] = useState<"explorer" | "creator">("explorer");
-  const [selectedUser, setSelectedUser] = useState<string[] | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedTags, setSelectedTags] = useState<string[] | null>(null);
   const [sortConfig, setSortConfig] = useState<{
     key: keyof Tweet | null;
     direction: "descending" | "ascending";
@@ -118,8 +114,6 @@ export const Table: React.FC<TableProps> = ({ onTweetSelect, onAddTweetContent }
   };
 
   const handleRowClick = (row: Tweet, index: number) => {
-    onTweetSelect(row.tweet);
-    setSelectedRowIndex(index);
     window.open(row.url, "_blank");
   };
 
@@ -133,19 +127,15 @@ export const Table: React.FC<TableProps> = ({ onTweetSelect, onAddTweetContent }
           new Date(tweet.date).getMonth() === selectedDate.getMonth() &&
           new Date(tweet.date).getFullYear() === selectedDate.getFullYear());
 
-      const userFilter = !selectedUser || selectedUser.includes(tweet.user);
 
       const searchFilter =
         searchQuery === "" ||
         tweet.tweet.toLowerCase().includes(searchQuery.toLowerCase());
 
-      const tagFilter =
-        !selectedTags ||
-        tweet.userTags.some((tag) => selectedTags.includes(tag));
 
-      return dateFilter && userFilter && searchFilter && tagFilter;
+      return dateFilter && searchFilter;
     });
-  }, [sortedData, selectedDate, selectedUser, searchQuery, selectedTags]);
+  }, [sortedData, selectedDate, searchQuery]);
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -177,7 +167,7 @@ export const Table: React.FC<TableProps> = ({ onTweetSelect, onAddTweetContent }
 
   return (
     <div className="animate-pop-in table_above">
-      <div className="p-4 bg-zinc-200 text-gray-300 rounded-lg shadow-lg border-2 border-dashed border-blue-400">
+      <div className="p-4 bg-zinc-200 mb-4 text-gray-300 rounded-lg shadow-lg border-2 border-dashed border-zinc-400">
         <div className="flex items-center mb-4">
           <div className="flex mb-4">
             <button
@@ -242,7 +232,7 @@ export const Table: React.FC<TableProps> = ({ onTweetSelect, onAddTweetContent }
                   ref={listRef}
                   height={300}
                   itemCount={filteredData.length}
-                  itemSize={180}
+                  itemSize={150}
                   width="100%"
                   className="custom-scrollbar"
                 >

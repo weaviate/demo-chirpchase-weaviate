@@ -7,3 +7,4 @@ openai
 wasabi
 mypy
 pytest
+docarray

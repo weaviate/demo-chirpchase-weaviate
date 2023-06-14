@@ -73,7 +73,11 @@ def main(dataset_path: Path, output_path: Path, data_config_path: Path) -> None:
     # Create and Save DocArray
     docArray = DocumentArray(docList)
     docArray.save_binary(output_path / "dataset.bin")
-    print(colored(f"Dataset.bin saved at {output_path} with {len(docList)} entries", "green"))
+    print(
+        colored(
+            f"Dataset.bin saved at {output_path} with {len(docList)} entries", "green"
+        )
+    )
 
 
 def processTweet(tweet: dict) -> dict:

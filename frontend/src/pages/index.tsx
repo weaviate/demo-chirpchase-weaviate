@@ -9,24 +9,13 @@ import { FaKiwiBird } from "react-icons/fa";
 import { OutputEntry } from "../components/itemTypes";
 
 export default function Home() {
-  const [selectedTweet, setSelectedTweet] = useState<string | null>(null);
   const [droppedTweets, setDroppedTweets] = useState<Tweet[]>([]);
-  const [responseText, setResponseText] = useState<string[] | null>(null);
   const [responseData, setResponseData] = useState<OutputEntry | null>(null);
-  const [keyText, setkeyText] = useState<string[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [apiStatus, setApiStatus] = useState<string>("Offline");
 
-  const handleTweetSelect = (tweet: string) => {
-    setSelectedTweet(tweet);
-  };
-
   const handleDrop = (tweet: Tweet) => {
     setDroppedTweets((prevTweets) => [...prevTweets, tweet]);
-  };
-
-  const handleClearDrop = () => {
-    setDroppedTweets([]);
   };
 
   const handleDeleteTweet = (tweetId: string) => {
@@ -112,9 +101,6 @@ export default function Home() {
           </div>
           <div className="pt-6 px-12">
             <InputCard onSend={handleSend} />
-            <div className="mt-4">
-              <Dropzone onDrop={handleDrop} onClear={handleClearDrop} onDelete={handleDeleteTweet} />
-            </div>
           </div>
         </div>
         <div
@@ -127,13 +113,12 @@ export default function Home() {
         >
           <div className="container pt-8 px-8 custom-scrollbar">
             <div className="w-full">
-              <Table onTweetSelect={handleTweetSelect} onAddTweetContent={handleAddTweetContent} />
-              <div className="mt-4">
-                <OutputCard
-                  data={responseData}
-                  isLoading={isLoading}
-                />
-              </div>
+              <Table onAddTweetContent={handleAddTweetContent} />
+              <Dropzone onDrop={handleDrop} onDelete={handleDeleteTweet} droppedTweets={droppedTweets} />
+              <OutputCard
+                data={responseData}
+                isLoading={isLoading}
+              />
             </div>
           </div>
         </div>

@@ -56,7 +56,7 @@ export const OutputCard: React.FC<OutputCardProps> = ({
 
   return (
     <div className="animate-pop-in">
-      <div className="relative flex bg-zinc-200 rounded-lg shadow-lg border-2 border-blue-400 border-dashed">
+      <div className="relative flex bg-zinc-200 rounded-lg shadow-lg border-2 border-zinc-400 border-dashed mb-4">
         <div className="w-2/3">
           <div className="relative p-4 mb-8 bg-zinc-200 text-gray-300  rounded-lg">
             <div className="flex items-center mb-4">
@@ -136,7 +136,7 @@ export const OutputCard: React.FC<OutputCardProps> = ({
             </div>
             <div>
               {Object.keys(cachedOutputs).length > 0 ? (
-                Object.entries(cachedOutputs).map(([timestamp, outputEntry], index) => (
+                Object.entries(cachedOutputs).reverse().map(([timestamp, outputEntry], index) => (
                   <div
                     key={`cached_${index}`}
                     className="p-2 m-2 bg-zinc-300 rounded-md text-sm font-mono text-zinc-800 animate-pop-in-late table-container hover:bg-white"
