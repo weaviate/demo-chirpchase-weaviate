@@ -211,6 +211,13 @@
   opacity: 0.5;
 }
 
+.dot-grid {
+  background-image: radial-gradient(circle, #1b1b1b 1px, transparent 1px), radial-gradient(circle, #484747 1px, transparent 1px);
+  background-size: 30px 30px;
+  /* Adjust this to control the distance between dots */
+  background-position: 0 0, 30px 30px;
+}
+
 .title-container {
   position: relative;
   z-index: 1;

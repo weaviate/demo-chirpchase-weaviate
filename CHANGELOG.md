@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.0] - 23.10.2023
+
+### Changed
+
+- Moved all backend functionality to next.js
+- Removed FastAPI backend
+- Removed all functionality about tweets, focus on custom data, prompt personas and additional context
+
 ## [0.1.4] - 12.06.2023
 
 ### Added 

@@ -1,51 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { MdOutput, MdCached } from "react-icons/md";
-import { OutputEntry } from "./itemTypes";
 import Typewriter from 'typewriter-effect';
 
 interface OutputCardProps {
   data: OutputEntry | null;
+  cache: CacheResponse;
   isLoading: boolean;
 }
 
-interface CacheResponse {
+export interface OutputEntry {
+  [key: string]: string;
+}
+
+export interface CacheResponse {
   [timestamp: string]: OutputEntry;
 }
 
 export const OutputCard: React.FC<OutputCardProps> = ({
   data,
   isLoading,
+  cache
 }) => {
 
   const [collapsed, setCollapsed] = useState<{ [key: string]: boolean }>({
     "📝 Prompt": true,
     "📝 Input": true,
   });
-
-  const [cachedOutputs, setCachedOutputs] = useState<CacheResponse>({});
   const [outputData, setOutputData] = useState<OutputEntry | null>(data);
 
   useEffect(() => {
     setOutputData(data);
   }, [data]);
-
-  useEffect(() => {
-    const fetchCache = async () => {
-      try {
-        const response = await fetch("http://localhost:8000/cache");
-        if (response.ok) {
-          const data: CacheResponse = await response.json();
-          setCachedOutputs(data);
-        } else {
-          console.error("Failed to fetch cache:", response.status);
-        }
-      } catch (error) {
-        console.error("Failed to fetch cache:", error);
-      }
-    };
-
-    fetchCache();
-  }, [outputData]); // Fetch cache whenever output changes
 
   const handleToggleCollapse = (key: string) => {
     setCollapsed(prevState => ({
@@ -56,8 +41,8 @@ export const OutputCard: React.FC<OutputCardProps> = ({
 
   return (
     <div className="animate-pop-in">
-      <div className="relative flex bg-zinc-200 rounded-lg shadow-lg border-2 border-zinc-400 border-dashed mb-4">
-        <div className="w-2/3">
+      <div className="relative flex max-h-[55vh] bg-zinc-200 rounded-lg shadow-lg border-2 border-zinc-400 border-dashed mb-4">
+        <div className="w-2/3 overflow-x-auto">
           <div className="relative p-4 mb-8 bg-zinc-200 text-gray-300  rounded-lg">
             <div className="flex items-center mb-4">
               {/* Title */}
@@ -126,7 +111,7 @@ export const OutputCard: React.FC<OutputCardProps> = ({
             </div>
           </div>
         </div>
-        <div className="w-1/3">
+        <div className="w-1/3 overflow-x-auto">
           <div className="relative p-4 mb-8 bg-zinc-200 text-gray-300">
             <div className="flex items-center mb-4">
               <MdCached className="mr-2 text-zinc-800"></MdCached>
@@ -135,8 +120,8 @@ export const OutputCard: React.FC<OutputCardProps> = ({
               </p>
             </div>
             <div>
-              {Object.keys(cachedOutputs).length > 0 ? (
-                Object.entries(cachedOutputs).reverse().map(([timestamp, outputEntry], index) => (
+              {Object.keys(cache).length > 0 ? (
+                Object.entries(cache).reverse().map(([timestamp, outputEntry], index) => (
                   <div
                     key={`cached_${index}`}
                     className="p-2 m-2 bg-zinc-300 rounded-md text-sm font-mono text-zinc-800 animate-pop-in-late table-container hover:bg-white"
